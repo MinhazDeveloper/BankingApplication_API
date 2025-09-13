@@ -13,7 +13,21 @@ return new class extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->id();
+            // sender info
+            $table->unsignedBigInteger('sender_id'); // users table
+            $table->unsignedBigInteger('sender_account_number_id'); // accounts table
+            // recipient info
+            $table->unsignedBigInteger('recipient_id'); // users table
+            // transaction details
+            $table->string('reference')->nullable(); // optional reference/note
+            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
+            $table->decimal('amount', 16, 4);
+            // foreign keys
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('sender_account_number_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('recipient_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 

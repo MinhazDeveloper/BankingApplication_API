@@ -23,16 +23,17 @@ return new class extends Migration
             $table->decimal('balance', 16, 4);
 
             $table->string('category')->nullable(); // যেমন: deposit, withdrawal, transfer ইত্যাদি
-            $table->boolean('confirmed')->default('0');
+            $table->boolean('confirmed')->default(0);
             $table->string('description')->nullable();
             $table->dateTime('date');
             $table->text('metal')->nullable();
-            $table->timestamps();
 
             // foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
             $table->foreign('transfer_id')->references('id')->on('transactions')->onDelete('set null');
+            $table->timestamps();
+
         });
     }
 
